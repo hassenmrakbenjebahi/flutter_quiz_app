@@ -23,16 +23,30 @@ class _QuizScreenState extends State<QuizScreen> {
   int _questionIndex = 0;
   int _score = 0;
   List<String> _questions = [
-    'Quelle est la capitale de la France ?',
-    'Quel est le plus grand océan du monde ?',
-    'Combien de planètes composent notre système solaire ?'
-  ];
+    'What programming language is primarily used to develop Flutter apps?',
+    'What is the fundamental building block of the user interface in Flutter?',
+    'What command is used to create a new Flutter project in the terminal?',
+    'Which method is called every time the state of a Widget changes in Flutter?',
+    'How do you add a gradient of colors to a container in Flutter?',
+   'Which widget is used to create a dropdown list in Flutter?',
+    'How do you navigate to another page in Flutter?',
+    'Which class is used to display an image in Flutter?',
+    'How do you add animations in Flutter?',
+    'What is the rendering engine used by Flutter?'
+];
   List<List<String>> _options = [
-    ['Paris', 'Londres', 'Berlin', 'Rome'],
-    ['Atlantique', 'Pacifique', 'Indien', 'Arctique'],
-    ['5', '7', '8', '9']
+    ['JAVA', 'Dart', 'JavaScript', 'Python'],
+    ['Bloc', 'Widget', 'Module', 'Component'], 
+    ['flutter start', 'flutter create', 'flutter new', 'flutter project'], 
+    ['build()', 'initState()', 'setState()', 'dispose()'], 
+    ['color: Gradient([...])', 'gradient: LinearGradient([...])', 'colors: [Color1, Color2]', 'background: Gradient([...])'], 
+    ['DropdownButton', 'SelectList', 'Spinner', 'DropList'], 
+    ['Navigator.navigate(context, route)','Navigator.push(context, route)', 'goToPage(context, route)', 'changePage(context, route)'], 
+    ['ImageView', 'Picture', 'ImageWidget', 'Image'], 
+    ['By using CSS animations', 'By using Flutter s Animation class', 'By using jQuery', 'Animations are not supported in Flutter'], 
+    ['Skia', 'WebGL', 'Canvas', 'OpenGL'], 
   ];
-  List<int> _answers = [0, 1, 2]; // Index des réponses correctes pour chaque question
+  List<int> _answers = [1, 1,1,2,1,0,1,3,1,0]; // Index des réponses correctes pour chaque question
   bool _isTimeUp = false;
   int _remainingTimeInSeconds = 600; // 10 minutes
   late Timer _timer;
@@ -42,7 +56,7 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   void initState() {
     super.initState();
-      _selectedAnswers = List<int>.filled(_questions.length, -1); // Ajoutez cette ligne
+      _selectedAnswers = List<int>.filled(_questions.length, -1); 
 
     startTimer();
   }
