@@ -52,7 +52,7 @@ class _QuizScreenState extends State<QuizScreen> {
   late Timer _timer;
 
   List<int> _selectedAnswers = []; // Stocke les réponses sélectionnées par l'utilisateur
-
+  
   @override
   void initState() {
     super.initState();
@@ -124,7 +124,21 @@ void _answerQuestion(int selectedOption) {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Quiz App'),
+        title: Row(
+          children: [  
+            Image.asset(
+              'assets/logo.png',
+              width: 40,
+              height: 40,
+            ),
+            SizedBox(width: 10),      
+            Text(
+              'My Job Applications',
+              style: TextStyle(
+                  fontSize: 20, fontFamily: AutofillHints.creditCardNumber),
+            ),
+          ],
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -132,12 +146,18 @@ void _answerQuestion(int selectedOption) {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  // Action du bouton
-                },
-                child: Text(
-                  '${(_remainingTimeInSeconds ~/ 60).toString().padLeft(2, '0')}:${(_remainingTimeInSeconds % 60).toString().padLeft(2, '0')}'
+              ElevatedButton.icon(
+                onPressed: () {},
+                icon: Icon(Icons.lightbulb,color: Colors.white),
+                label: Text(
+                  '${(_remainingTimeInSeconds ~/ 60).toString().padLeft(2, '0')}:${(_remainingTimeInSeconds % 60).toString().padLeft(2, '0')}',
+                    style: TextStyle(color: Colors.white), // Texte blanc
+
+                ),
+                
+                style:  ElevatedButton.styleFrom(
+               backgroundColor: Color.fromARGB(238, 245, 101, 5),
+               
                 ),
               ),
               SizedBox(width: 20),
@@ -149,11 +169,12 @@ void _answerQuestion(int selectedOption) {
             children: List.generate(
               _questions.length,
               (index) => Container(
+                
                 width: 20,
                 height: 20,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: _questionIndex == index ? Colors.blue : Colors.grey,
+                  color: _questionIndex == index ? Color.fromARGB(255, 255, 115, 0) : Colors.grey,
                 ),
                 child: Center(
                   child: Text(
@@ -165,6 +186,10 @@ void _answerQuestion(int selectedOption) {
             ),
           ),
           SizedBox(height: 10),
+          Divider(
+              color: Color.fromARGB(255, 250, 104, 6),
+              height: 60.0,
+            ),
           Center(
             child: Column(
               children: [
@@ -196,7 +221,7 @@ void _answerQuestion(int selectedOption) {
                     Column(
                    children: [
                    Text(
-                    'Le temps est écoulé!',
+                    '',
                     style: TextStyle(fontSize: 18.0, color: Colors.red),
                    ),
                    Text(
@@ -214,11 +239,19 @@ void _answerQuestion(int selectedOption) {
             children: [
               ElevatedButton(
                 onPressed: _previousQuestion,
-                child: Text('Précédent'),
+                child: Text('Précédent' , style: TextStyle(color: Colors.white), // Texte blanc
+
+                ),
+                style:  ElevatedButton.styleFrom(
+               backgroundColor: Color.fromARGB(238, 245, 101, 5)
+                ),
               ),
               ElevatedButton(
                 onPressed: _nextQuestion,
-                child: Text('Suivant'),
+                child: Text('Suivant',style: TextStyle(color: Colors.white)),
+                 style:  ElevatedButton.styleFrom(
+                 backgroundColor: Color.fromARGB(238, 245, 101, 5)
+                ),
               ),
             ],
           ),
