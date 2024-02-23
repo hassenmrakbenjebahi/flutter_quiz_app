@@ -53,7 +53,6 @@ class _QuizScreenState extends State<QuizScreen> {
   ];
   List<int> _answers = [1, 1,1,2,1,0,1,3,1,0]; // Index des réponses correctes pour chaque question
   bool _isTimeUp = false;
-  bool _finish = false;
 
   int _remainingTimeInSeconds = 600; // 10 minutes
   late Timer _timer;
@@ -85,8 +84,7 @@ class _QuizScreenState extends State<QuizScreen> {
     setState(() {
       if (_questionIndex < _questions.length - 1) {
         _questionIndex++;
-      }else if(_questionIndex == _questions.length - 1){
-        _finish = true;
+      
       }
        else {
         _isTimeUp = true; // Si toutes les questions ont été répondues, le temps est écoulé
@@ -128,7 +126,14 @@ void _answerQuestion(int selectedOption) {
   }
 }
 
+void _navigateToScoreScreen(){
+   setState(() {
+         _timer.cancel();
 
+   });
+   Get.toNamed('/score', arguments: _score);
+  
+}
 
   @override
   Widget build(BuildContext context) {
@@ -256,25 +261,13 @@ void _answerQuestion(int selectedOption) {
                    backgroundColor: Color.fromARGB(238, 245, 101, 5)
                 ),
               ),
-             if (_finish)
-           ElevatedButton(
-           onPressed: () {
-           Get.toNamed('/score', arguments: _score);
-            _timer.cancel();
-           },
-           child: Text('SEND', style: TextStyle(color: Colors.white)),
-           style: ElevatedButton.styleFrom(
-           backgroundColor: Color.fromARGB(255, 206, 241, 4), // Couleur pour le bouton lorsque le temps est écoulé
-           ),
-         )
-          else
-          ElevatedButton(
-          onPressed: _nextQuestion,
-          child: Text('NEXT', style: TextStyle(color: Colors.white)),
-          style: ElevatedButton.styleFrom(
-          backgroundColor: Color.fromARGB(238, 245, 101, 5),
-          ),
-         ),              
+       ElevatedButton(
+  onPressed:_questionIndex < _questions.length - 1 ? _nextQuestion : _navigateToScoreScreen,
+  child: Text(_questionIndex < _questions.length - 1 ? 'NEXT' : 'SEND', style: TextStyle(color: Colors.white)),
+  style: ElevatedButton.styleFrom(
+    backgroundColor: Color.fromARGB(238, 245, 101, 5),
+  ),
+),             
          ],
         ),
         ],
