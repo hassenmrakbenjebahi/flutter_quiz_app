@@ -1,7 +1,4 @@
-
-  /////
-  ///
-  import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:get/get.dart';
@@ -163,10 +160,10 @@ void _navigateToScoreScreen(){
             children: [
               ElevatedButton.icon(
                 onPressed: () {},
-                icon: Icon(Icons.timer,color: Colors.white),
+                icon: Icon(Icons.timer_outlined,color: Colors.white,size: 15.0),
                 label: Text(
                   '${(_remainingTimeInSeconds ~/ 60).toString().padLeft(2, '0')}:${(_remainingTimeInSeconds % 60).toString().padLeft(2, '0')}',
-                    style: TextStyle(color: Colors.white), // Texte blanc
+                    style: TextStyle(color: Colors.white,fontSize: 15.0), // Texte blanc
 
                 ),
                 
@@ -200,7 +197,6 @@ void _navigateToScoreScreen(){
               ),
             ),
           ),
-          SizedBox(height: 10),
           Divider(
               color: Color.fromARGB(255, 250, 104, 6),
               height: 60.0,
@@ -214,23 +210,27 @@ void _navigateToScoreScreen(){
                   style: TextStyle(fontSize: 20.0),
                 ),
                 SizedBox(height: 20.0),
-                Column(
-                  children: _options[_questionIndex]
-                      .asMap()
-                      .entries
-                      .map(
-                        (entry) => Padding(
-                          padding: EdgeInsets.symmetric(vertical: 5.0),
-                          child: RadioListTile<int>(
-                            title: Text(entry.value),
-                            value: entry.key,
-                            groupValue: _selectedAnswers[_questionIndex],
-                            onChanged: _isTimeUp ? null : (value) => _answerQuestion(value!),
-                          ),
-                        ),
-                      )
-                      .toList(),
-                ),
+               Column(
+                children: _options[_questionIndex]
+                .asMap()
+                .entries
+                .map(
+                (entry) => Padding(
+                padding: EdgeInsets.symmetric(vertical: 5.0),
+                child: Card(
+                elevation: 3, // Ajoute une ombre pour un effet de profondeur
+                child: RadioListTile<int>(
+                title: Text(entry.value),
+                value: entry.key,
+                groupValue: _selectedAnswers[_questionIndex],
+                onChanged: _isTimeUp ? null : (value) => _answerQuestion(value!),
+              ),
+            ),
+          ),
+        )
+       .toList(),
+      ),
+
                 SizedBox(height: 10.0),                  
                 if (_isTimeUp)
                     Column(
@@ -261,13 +261,15 @@ void _navigateToScoreScreen(){
                    backgroundColor: Color.fromARGB(238, 245, 101, 5)
                 ),
               ),
-       ElevatedButton(
-  onPressed:_questionIndex < _questions.length - 1 ? _nextQuestion : _navigateToScoreScreen,
-  child: Text(_questionIndex < _questions.length - 1 ? 'NEXT' : 'SEND', style: TextStyle(color: Colors.white)),
-  style: ElevatedButton.styleFrom(
-    backgroundColor: Color.fromARGB(238, 245, 101, 5),
-  ),
-),             
+        ElevatedButton(
+         onPressed:_questionIndex < _questions.length - 1 ? _nextQuestion : _navigateToScoreScreen,
+         child: Text(_questionIndex < _questions.length - 1 ? 'NEXT' : 'SEND', style: TextStyle(color: Colors.white)),
+         style: ElevatedButton.styleFrom(
+         backgroundColor: _questionIndex < _questions.length - 1
+           ? Color.fromARGB(238, 245, 101, 5) 
+           : Colors.teal,                      
+           ),
+          ),             
          ],
         ),
         ],
