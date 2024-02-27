@@ -5,6 +5,8 @@ import 'package:quizapp/screens/quiz.dart';
 import 'package:quizapp/screens/score.dart';
 import 'package:quizapp/screens/DetailQuizScreen.dart';
 import 'package:quizapp/screens/screen_generate_quiz.dart';
+import 'package:quizapp/screens/screen_result_generate.dart';
+
 
 
 void main() {
@@ -22,6 +24,8 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/score', page: () => ScoreQuiz()), 
         GetPage(name: '/detailquiz', page:()=> DetailQuizScreen()),
         GetPage(name: '/generate_quiz', page:()=> ScreenGenerateQuiz()),
+        GetPage(name: '/result_generate', page:()=> ScreenResultGenerate()),
+
 
       ],
     );
