@@ -75,8 +75,9 @@ class _ScreenGenerateQuizState extends State<ScreenGenerateQuiz> {
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 // Form is valid, do something with the text
-               // String text = _textController.text;
-                Get.toNamed("/result_generate");
+                String theme = _textController.text;
+                print(theme);
+                Get.toNamed("/result_generate",arguments: theme);
               }
             },
             child: Text('Generate',style: TextStyle(color: Colors.white)),

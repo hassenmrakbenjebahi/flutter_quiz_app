@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp/model/question.dart';
+import 'package:get/get.dart';
 
 class ScreenResultGenerate extends StatefulWidget {
   const ScreenResultGenerate({Key? key}) : super(key: key);
@@ -9,34 +10,49 @@ class ScreenResultGenerate extends StatefulWidget {
 }
 
 class _ScreenResultGenerateState extends State<ScreenResultGenerate> {
+      final String theme = Get.arguments as String;
+
   List<Question> questions = [
     Question(
       question: "What is the capital of France?",
       options: ["Paris", "London", "Berlin", "Rome"],
+      correct:0,
     ),
     Question(
       question: "What is 2 + 2?",
       options: ["3", "4", "5", "6"],
+      correct:1,
+
     ),
     Question(
       question: "What is the capital of France?",
       options: ["Paris", "London", "Berlin", "Rome"],
+            correct:0,
+
     ),
     Question(
       question: "What is 2 + 2?",
       options: ["3", "4", "5", "6"],
+            correct:0,
+
     ),
     Question(
       question: "What is 2 + 2?",
       options: ["3", "4", "5", "6"],
+            correct:0,
+
     ),
     Question(
       question: "What is the capital of France?",
       options: ["Paris", "London", "Berlin", "Rome"],
+            correct:0,
+
     ),
     Question(
       question: "What is 2 + 2?",
       options: ["3", "4", "5", "6"],
+            correct:0,
+
     )
   ];
 
