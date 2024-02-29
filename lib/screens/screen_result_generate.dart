@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp/model/question.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ScreenResultGenerate extends StatefulWidget {
   const ScreenResultGenerate({Key? key}) : super(key: key);
@@ -10,114 +12,130 @@ class ScreenResultGenerate extends StatefulWidget {
 }
 
 class _ScreenResultGenerateState extends State<ScreenResultGenerate> {
-      final String theme = Get.arguments as String;
+  final String theme = Get.arguments as String;
+  final List<Question> questions = [];
+  late Future<bool> fetchedData;
 
-  List<Question> questions = [
-    Question(
-      question: "What is the capital of France?",
-      options: ["Paris", "London", "Berlin", "Rome"],
-      correct:0,
-    ),
-    Question(
-      question: "What is 2 + 2?",
-      options: ["3", "4", "5", "6"],
-      correct:1,
+  Future<bool> fetchData() async {
+    //url
+    Uri fetchUri = Uri.parse("http://192.168.1.147:5000/quiz");
 
-    ),
-    Question(
-      question: "What is the capital of France?",
-      options: ["Paris", "London", "Berlin", "Rome"],
-            correct:0,
+    //data to send
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+    };
+    await http.get(fetchUri, headers: headers).then((response) {
+      if (response.statusCode == 200) {
+        print(response.body);
+        //Selialization
+      List<dynamic> data = json.decode(response.body);
+       for (var item in data) {
+         // Convertit les options en List<String> à partir de item['options']
+         List<String> options = List<String>.from(item['options']);
+         // Ajoute la nouvelle question à la liste
+         questions.add(Question(question: item['question'], options: options, correct: item['correct']));
+}
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Information"),
+              content: const Text("Server Error! Try agaim later."),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text("Dismiss"))
+              ],
+            );
+          },
+        );
+      }
+    });
 
-    ),
-    Question(
-      question: "What is 2 + 2?",
-      options: ["3", "4", "5", "6"],
-            correct:0,
+    return true;
 
-    ),
-    Question(
-      question: "What is 2 + 2?",
-      options: ["3", "4", "5", "6"],
-            correct:0,
-
-    ),
-    Question(
-      question: "What is the capital of France?",
-      options: ["Paris", "London", "Berlin", "Rome"],
-            correct:0,
-
-    ),
-    Question(
-      question: "What is 2 + 2?",
-      options: ["3", "4", "5", "6"],
-            correct:0,
-
-    )
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Image.asset(
-              'assets/logo.png',
-              width: 40,
-              height: 40,
-            ),
-            SizedBox(width: 10),
-            Text(
-              'My Job Applications',
-              style: TextStyle(fontSize: 20, fontFamily: 'Roboto'),
-            ),
-          ],
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: questions
-              .asMap()
-              .entries
-              .map(
-                (entry) => Card(
-                  margin: EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Text(
-                          "Question ${entry.key + 1}: ${entry.value.question}",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: entry.value.options.length,
-                        itemBuilder: (context, optionIndex) {
-                          String option = entry.value.options[optionIndex];
-                          return ListTile(
-                            title: Text(option),
-                            onTap: () {
-                              // Logique à exécuter lorsque l'option est sélectionnée
-                            },
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              )
-              .toList(),
-        ),
-      ),
-    );
   }
+
+  void initState() {
+    super.initState();
+    fetchedData = fetchData();
+  }
+
+
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Row(
+        children: [
+          Image.asset(
+            'assets/logo.png',
+            width: 40,
+            height: 40,
+          ),
+          SizedBox(width: 10),
+          Text(
+            'My Job Applications',
+            style: TextStyle(fontSize: 20, fontFamily: 'Roboto'),
+          ),
+        ],
+      ),
+    ),
+    body: FutureBuilder<bool>(
+      future: fetchedData,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else {
+          return SingleChildScrollView(
+            child: Column(
+              children: questions
+                  .asMap()
+                  .entries
+                  .map(
+                    (entry) => Card(
+                      margin: EdgeInsets.all(10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Text(
+                              "Question ${entry.key + 1}: ${entry.value.question}",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: entry.value.options.length,
+                            itemBuilder: (context, optionIndex) {
+                              String option = entry.value.options[optionIndex];
+                              return ListTile(
+                                title: Text(option),
+                                onTap: () {
+                                  // Logique à exécuter lorsque l'option est sélectionnée
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+          );
+        }
+      },
+    ),
+  );
+}
 }
