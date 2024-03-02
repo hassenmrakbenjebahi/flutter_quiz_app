@@ -63,25 +63,35 @@ class _ScreenResultGenerateState extends State<ScreenResultGenerate> {
   }
 
 
-
+@override
+Widget build(BuildContext context) {
   return Scaffold(
-    appBar: AppBar(
-      title: Row(
-        children: [
-          Image.asset(
-            'assets/logo.png',
-            width: 40,
-            height: 40,
-          ),
-          SizedBox(width: 10),
-          Text(
-            'My Job Applications',
-            style: TextStyle(fontSize: 20, fontFamily: 'Roboto'),
-          ),
-        ],
-        
+appBar: AppBar(
+  title: Row(
+    children: [
+      Image.asset(
+        'assets/logo.png',
+        width: 40,
+        height: 40,
       ),
+      SizedBox(width: 10),
+      Text(
+        'My Job Applications',
+        style: TextStyle(fontSize: 20, fontFamily: 'Roboto'),
+      ),
+    ],
+  ),
+  actions: [
+    IconButton(
+      icon: Icon(Icons.add), // Changer l'icône pour l'icône "plus"
+      onPressed: () {
+        // Appeler la fonction pour sauvegarder les questions dans la base de données MongoDB
+        //saveQuizToDatabase();
+      },
     ),
+  ],
+),
+
     body: FutureBuilder<bool>(
       future: fetchedData,
       builder: (context, snapshot) {
@@ -139,7 +149,6 @@ class _ScreenResultGenerateState extends State<ScreenResultGenerate> {
                     ),
                   )
                   .toList(),
-                  
             ),
             
           );
@@ -148,97 +157,4 @@ class _ScreenResultGenerateState extends State<ScreenResultGenerate> {
     ),
   );
 }
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: Row(
-        children: [
-          Image.asset(
-            'assets/logo.png',
-            width: 40,
-            height: 40,
-          ),
-          SizedBox(width: 10),
-          Text(
-            'My Job Applications',
-            style: TextStyle(fontSize: 20, fontFamily: 'Roboto'),
-          ),
-        ],
-      ),
-    ),
-    body: FutureBuilder<bool>(
-      future: fetchedData,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: SpinKitCubeGrid(color: const Color.fromARGB(255, 243, 110, 33), size: 50.0));
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else {
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                ...questions
-                  .asMap()
-                  .entries
-                  .map(
-                    (entry) => Card(
-                      margin: EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Text(
-                              "Question ${entry.key + 1}: ${entry.value.question}",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 8),
-                          ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: entry.value.options.length,
-                            itemBuilder: (context, optionIndex) {
-                              String option = entry.value.options[optionIndex];
-                              bool iscorrect = optionIndex == entry.value.correct;
-                              return ListTile(
-                                   title: Text(option),
-                                   // Appliquer la bordure orange si c'est la bonne réponse
-                                   tileColor: iscorrect ? Colors.orange.withOpacity(0.3) : null,
-                                   shape: iscorrect ? RoundedRectangleBorder(
-                                   side: BorderSide(color: Colors.orange, width: 2.0),
-                                   borderRadius: BorderRadius.circular(8.0),
-                                   ) : null,
-                                onTap: () {
-                                  // Logique à exécuter lorsque l'option est sélectionnée
-                                },
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                  .toList(),
-                SizedBox(width: 20,),
-                ElevatedButton(
-                  onPressed: () {
-                    // Action lorsque le bouton "Add Quiz" est cliqué
-                  },
-                    child: Text('add quiz ', style: TextStyle(color: Colors.white)),
-                     style:  ElevatedButton.styleFrom(
-                     backgroundColor: Color.fromARGB(238, 245, 101, 5)),
-                ),                
-              ],
-            ),
-          );
-        }
-      },
-    ),
-  );
 }
-
