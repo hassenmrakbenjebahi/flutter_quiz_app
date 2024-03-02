@@ -16,9 +16,44 @@ class _ScreenResultGenerateState extends State<ScreenResultGenerate> {
   final List<Question> questions = [];
   late Future<bool> fetchedData;
 
+     Future<void> addQuiz() async {
+  try {
+    List<Map<String, dynamic>> questionsJson = questions.map((question) => question.toJson()).toList();
+    final response = await http.post(
+      Uri.parse('http://192.168.1.183:5000/add_quiz'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'theme': theme,
+        'questions': questionsJson,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+          showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Information"),
+              content: const Text("Quiz inserted seccessfuly."),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text("Dismiss"))
+              ],
+            );
+          },
+        );
+    } 
+  } catch (e) {
+    print('Error during addquiz: $e');
+    // Handle network or other exceptions
+  }
+
+}
+
   Future<bool> fetchData() async {
     //url
-    Uri fetchUri = Uri.parse("http://192.168.1.179:5000/quiz");
+    Uri fetchUri = Uri.parse("http://192.168.1.183:5000/quiz");
 
     //data to send
     Map<String, String> headers = {
@@ -34,7 +69,7 @@ class _ScreenResultGenerateState extends State<ScreenResultGenerate> {
          List<String> options = List<String>.from(item['options']);
          // Ajoute la nouvelle question à la liste
          questions.add(Question(question: item['question'], options: options, correct: item['correct']));
-}
+        }
       } else {
         showDialog(
           context: context,
@@ -82,11 +117,11 @@ appBar: AppBar(
     ],
   ),
   actions: [
+   // if(questions.length != 0)
     IconButton(
       icon: Icon(Icons.add), // Changer l'icône pour l'icône "plus"
       onPressed: () {
-        // Appeler la fonction pour sauvegarder les questions dans la base de données MongoDB
-        //saveQuizToDatabase();
+        addQuiz();
       },
     ),
   ],
