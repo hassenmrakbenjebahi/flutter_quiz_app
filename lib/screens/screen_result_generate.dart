@@ -3,7 +3,7 @@ import 'package:quizapp/model/question.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 class ScreenResultGenerate extends StatefulWidget {
   const ScreenResultGenerate({Key? key}) : super(key: key);
 
@@ -18,7 +18,7 @@ class _ScreenResultGenerateState extends State<ScreenResultGenerate> {
 
   Future<bool> fetchData() async {
     //url
-    Uri fetchUri = Uri.parse("http://192.168.1.147:5000/quiz");
+    Uri fetchUri = Uri.parse("http://192.168.1.179:5000/quiz");
 
     //data to send
     Map<String, String> headers = {
@@ -63,8 +63,7 @@ class _ScreenResultGenerateState extends State<ScreenResultGenerate> {
   }
 
 
-@override
-Widget build(BuildContext context) {
+
   return Scaffold(
     appBar: AppBar(
       title: Row(
@@ -80,13 +79,14 @@ Widget build(BuildContext context) {
             style: TextStyle(fontSize: 20, fontFamily: 'Roboto'),
           ),
         ],
+        
       ),
     ),
     body: FutureBuilder<bool>(
       future: fetchedData,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: SpinKitCubeGrid(color: const Color.fromARGB(255, 243, 110, 33), size: 50.0));
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else {
@@ -118,8 +118,101 @@ Widget build(BuildContext context) {
                             itemCount: entry.value.options.length,
                             itemBuilder: (context, optionIndex) {
                               String option = entry.value.options[optionIndex];
+                              bool iscorrect = optionIndex == entry.value.correct;
                               return ListTile(
-                                title: Text(option),
+                                   title: Text(option),
+                                   // Appliquer la bordure orange si c'est la bonne réponse
+                                   tileColor: iscorrect ? Colors.orange.withOpacity(0.3) : null,
+                                   shape: iscorrect ? RoundedRectangleBorder(
+                                   side: BorderSide(color: Colors.orange, width: 2.0),
+                                   borderRadius: BorderRadius.circular(8.0),
+                                   ) : null,
+                                onTap: () {
+                                  // Logique à exécuter lorsque l'option est sélectionnée
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                        
+                      ),
+                    ),
+                  )
+                  .toList(),
+                  
+            ),
+            
+          );
+        }
+      },
+    ),
+  );
+}
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Row(
+        children: [
+          Image.asset(
+            'assets/logo.png',
+            width: 40,
+            height: 40,
+          ),
+          SizedBox(width: 10),
+          Text(
+            'My Job Applications',
+            style: TextStyle(fontSize: 20, fontFamily: 'Roboto'),
+          ),
+        ],
+      ),
+    ),
+    body: FutureBuilder<bool>(
+      future: fetchedData,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: SpinKitCubeGrid(color: const Color.fromARGB(255, 243, 110, 33), size: 50.0));
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else {
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                ...questions
+                  .asMap()
+                  .entries
+                  .map(
+                    (entry) => Card(
+                      margin: EdgeInsets.all(10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Text(
+                              "Question ${entry.key + 1}: ${entry.value.question}",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: entry.value.options.length,
+                            itemBuilder: (context, optionIndex) {
+                              String option = entry.value.options[optionIndex];
+                              bool iscorrect = optionIndex == entry.value.correct;
+                              return ListTile(
+                                   title: Text(option),
+                                   // Appliquer la bordure orange si c'est la bonne réponse
+                                   tileColor: iscorrect ? Colors.orange.withOpacity(0.3) : null,
+                                   shape: iscorrect ? RoundedRectangleBorder(
+                                   side: BorderSide(color: Colors.orange, width: 2.0),
+                                   borderRadius: BorderRadius.circular(8.0),
+                                   ) : null,
                                 onTap: () {
                                   // Logique à exécuter lorsque l'option est sélectionnée
                                 },
@@ -131,6 +224,16 @@ Widget build(BuildContext context) {
                     ),
                   )
                   .toList(),
+                SizedBox(width: 20,),
+                ElevatedButton(
+                  onPressed: () {
+                    // Action lorsque le bouton "Add Quiz" est cliqué
+                  },
+                    child: Text('add quiz ', style: TextStyle(color: Colors.white)),
+                     style:  ElevatedButton.styleFrom(
+                     backgroundColor: Color.fromARGB(238, 245, 101, 5)),
+                ),                
+              ],
             ),
           );
         }
@@ -138,4 +241,4 @@ Widget build(BuildContext context) {
     ),
   );
 }
-}
+
