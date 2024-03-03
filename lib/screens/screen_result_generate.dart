@@ -61,7 +61,6 @@ class _ScreenResultGenerateState extends State<ScreenResultGenerate> {
     };
     await http.get(fetchUri, headers: headers).then((response) {
       if (response.statusCode == 200) {
-        print(response.body);
         //Selialization
       List<dynamic> data = json.decode(response.body);
        for (var item in data) {
