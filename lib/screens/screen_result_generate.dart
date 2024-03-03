@@ -118,11 +118,14 @@ appBar: AppBar(
   ),
   actions: [
    // if(questions.length != 0)
-    IconButton(
-      icon: Icon(Icons.add), // Changer l'icône pour l'icône "plus"
+    ElevatedButton(
       onPressed: () {
         addQuiz();
       },
+       child: Text('save',style: TextStyle(color: Colors.white)),
+       style:  ElevatedButton.styleFrom(
+       backgroundColor: Color.fromARGB(238, 245, 101, 5)
+      ),
     ),
   ],
 ),
