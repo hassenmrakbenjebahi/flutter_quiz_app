@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:quizapp/model/quiz.dart';
 
 class DetailQuizScreen extends StatefulWidget {
   const DetailQuizScreen({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-
+     Quiz quiz = Get.arguments as Quiz;
     return Scaffold(
       appBar: AppBar(
         title: Row(

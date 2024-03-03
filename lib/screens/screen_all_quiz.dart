@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:quizapp/model/question.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:quizapp/model/quiz.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 class ScreenAllQuiz extends StatefulWidget {
   const ScreenAllQuiz({Key? key}) : super(key: key);
 
@@ -67,10 +68,9 @@ Future<List<Quiz>> fetchQuiz() async {
 }    
 
 
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+     return Scaffold(
       appBar: AppBar(
         title: Row(
           children: [  
@@ -88,10 +88,20 @@ Future<List<Quiz>> fetchQuiz() async {
           ],
         ),
       ),
-      body: ListView.builder(
-        itemCount: quizData.length,
-        itemBuilder: (context, index) {
+      body: FutureBuilder<List<Quiz>>(
+        future: fetchQuiz(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: SpinKitCubeGrid(color: const Color.fromARGB(255, 243, 110, 33), size: 50.0));
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            List<Quiz>? quizzes = snapshot.data;
+            return ListView.builder(
+              itemCount: quizzes!.length,
+              itemBuilder: (context, index) {
           return Card(
+            margin: EdgeInsets.all(10),
             child: ListTile(
               leading: Image.asset(
                 'assets/lquiz.jpg',
@@ -99,17 +109,22 @@ Future<List<Quiz>> fetchQuiz() async {
                 height: 80,
                 fit: BoxFit.cover,
               ),
-              title: Text(quizData[index]['title']),
-              subtitle: Text('Description du quiz'),
+              title: Text(quizzes[index].theme,style: TextStyle(color: Color.fromARGB(238, 245, 101, 5),fontWeight: FontWeight.bold) ),
+              subtitle: Text('${quizzes[index].questions.length} questions'),
               trailing: ElevatedButton(
                 onPressed: () {
-                  // Action à effectuer lors de l'appui sur le bouton
-                  // Par exemple, naviguer vers une autre page
+                  Get.toNamed('/detailquiz',arguments: quizzes[index]);
                 },
-                child: Text('Commencer'),
-              ),
+                 child: Text('continue',style: TextStyle(color: Colors.white)),
+                 style:  ElevatedButton.styleFrom(
+                 backgroundColor: Color.fromARGB(238, 245, 101, 5)
+                 ),              
+               ),
             ),
           );
+              },
+            );
+          }
         },
       ),
     );
