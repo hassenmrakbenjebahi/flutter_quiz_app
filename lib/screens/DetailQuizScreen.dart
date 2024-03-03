@@ -13,7 +13,7 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-     Quiz quiz = Get.arguments as Quiz;
+    Quiz quiz = Get.arguments as Quiz;
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -26,62 +26,65 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
             SizedBox(width: 10),
             Text(
               'My Job Applications',
-          style: TextStyle(
-                  fontSize: 20, fontFamily: AutofillHints.creditCardNumber),    
+              style: TextStyle(
+                fontSize: 20,
+                fontFamily: AutofillHints.creditCardNumber,
+              ),
             ),
           ],
         ),
       ),
       body: SingleChildScrollView(
-        child: Center( // Utiliser le widget Center pour centrer la Card
+        child: Center(
           child: Padding(
-            padding: EdgeInsets.all(screenWidth * 0.04), // Padding adaptatif
+            padding: EdgeInsets.all(screenWidth * 0.04),
             child: Card(
               elevation: 3.0,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  SizedBox(height: 20), // Espacement
                   Padding(
-                    padding: EdgeInsets.all(screenWidth * 0.03), // Padding adaptatif
+                    padding: EdgeInsets.all(screenWidth * 0.03),
                     child: Text(
                       'Brif Explanation About This Quiz',
                       style: TextStyle(
-                        fontSize: screenWidth * 0.06, // Taille de police adaptative
+                        fontSize: screenWidth * 0.06,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                  SizedBox(height: 25.0), // Espacement entre les règles du quiz et le reste du contenu
+                  SizedBox(height: 20), // Espacement
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
                     child: Row(
                       children: [
-                        _buildCircleIcon(Icons.check_circle), // Appel à une fonction pour créer l'icône dans un cercle
-                        SizedBox(width: 10), // Espacement entre l'icône et le texte
-                        Text('10 questions'), // Texte de la règle
+                        _buildCircleIcon(Icons.check_circle),
+                        SizedBox(width: 10),
+                        Text('${quiz.questions.length} questions'),
                       ],
                     ),
                   ),
-                  SizedBox(width: 20),
+                  SizedBox(height: 10), // Espacement
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
                     child: Row(
                       children: [
-                        _buildCircleIcon(Icons.timer), // Appel à une fonction pour créer l'icône dans un cercle
-                        SizedBox(width: 10), // Espacement entre l'icône et le texte
-                        Text('5 minutes'), // Texte de la règle
+                        _buildCircleIcon(Icons.timer),
+                        SizedBox(width: 10),
+                        Text('5 minutes'),
                       ],
                     ),
                   ),
-                  SizedBox(width: 25),
+                  SizedBox(height: 20), // Espacement
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
                     child: Text(
-                      'Please read the text bellow  carefully so you can understand it :',
+                      'Please read the text below carefully so you can understand it :',
                       style: TextStyle(fontSize: screenWidth * 0.04),
                     ),
                   ),
-                  SizedBox(width: 10),
+                  SizedBox(height: 10), // Espacement
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
                     child: Text(
@@ -89,15 +92,15 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
                       style: TextStyle(fontSize: screenWidth * 0.04),
                     ),
                   ),
-                  SizedBox(width: 20),
+                  SizedBox(height: 10), // Espacement
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
                     child: Text(
-                      '- Click submit if you are sure you want to complete all this questions',
+                      '- Click submit if you are sure you want to complete all these questions',
                       style: TextStyle(fontSize: screenWidth * 0.04),
                     ),
                   ),
-                   SizedBox(width: 20),
+                  SizedBox(height: 10), // Espacement
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
                     child: Text(
@@ -105,24 +108,25 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
                       style: TextStyle(fontSize: screenWidth * 0.04),
                     ),
                   ),
-                      SizedBox(width: 20),
+                  SizedBox(height: 10), // Espacement
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
                     child: Text(
-                      '-  Feel free to review and modify your answers at any time before submitting the quiz',
+                      '- Feel free to review and modify your answers at any time before submitting the quiz',
                       style: TextStyle(fontSize: screenWidth * 0.04),
                     ),
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: 20), // Espacement
                   ElevatedButton(
                     onPressed: () {
-                       Get.toNamed('/quiz');
+                      Get.toNamed('/quiz');
                     },
                     child: Text('Start Quiz', style: TextStyle(color: Colors.white)),
-                     style:  ElevatedButton.styleFrom(
-                     backgroundColor: Color.fromARGB(238, 245, 101, 5)
-                ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(238, 245, 101, 5),
+                    ),
                   ),
+                  SizedBox(height: 20), // Espacement
                 ],
               ),
             ),
@@ -138,12 +142,12 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
       height: 40.0,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: const Color.fromARGB(255, 243, 145, 33), // Couleur du cercle
+        color: const Color.fromARGB(255, 243, 145, 33),
       ),
       child: Icon(
         iconData,
-        color: Colors.white, // Couleur de l'icône
-        size: 24.0, // Taille de l'icône
+        color: Colors.white,
+        size: 24.0,
       ),
     );
   }
