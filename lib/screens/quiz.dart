@@ -25,41 +25,15 @@ class _QuizScreenState extends State<QuizScreen> {
   Quiz quiz = Get.arguments as Quiz;
   int _questionIndex = 0;
   int _score = 0;
-  List<String> _questions = [
-    'What programming language is primarily used to develop Flutter apps?',
-    'What is the fundamental building block of the user interface in Flutter?',
-    'What command is used to create a new Flutter project in the terminal?',
-    'Which method is called every time the state of a Widget changes in Flutter?',
-    'How do you add a gradient of colors to a container in Flutter?',
-   'Which widget is used to create a dropdown list in Flutter?',
-    'How do you navigate to another page in Flutter?',
-    'Which class is used to display an image in Flutter?',
-    'How do you add animations in Flutter?',
-    'What is the rendering engine used by Flutter?'
-];
-  
-  List<List<String>> _options = [
-    ['JAVA', 'Dart', 'JavaScript', 'Python'],
-    ['Bloc', 'Widget', 'Module', 'Component'], 
-    ['flutter start', 'flutter create', 'flutter new', 'flutter project'], 
-    ['build()', 'initState()', 'setState()', 'dispose()'], 
-    ['color: Gradient([...])', 'gradient: LinearGradient([...])', 'colors: [Color1, Color2]', 'background: Gradient([...])'], 
-    ['DropdownButton', 'SelectList', 'Spinner', 'DropList'], 
-    ['Navigator.navigate(context, route)','Navigator.push(context, route)', 'goToPage(context, route)', 'changePage(context, route)'], 
-    ['ImageView', 'Picture', 'ImageWidget', 'Image'], 
-    ['By using CSS animations', 'By using Flutter s Animation class', 'By using jQuery', 'Animations are not supported in Flutter'], 
-    ['Skia', 'WebGL', 'Canvas', 'OpenGL'], 
-  ];
-  List<int> _answers = [1, 1,1,2,1,0,1,3,1,0]; // Index des réponses correctes pour chaque question
-  List<int> cor = [];
-  List<String> quest = [];
-  List<List<String>> opt = [];
+  List<int> _answers = [];
+  List<String> _questions = [];
+  List<List<String>> _options = [];
   void gereQuiz(){
     
     for(var item in quiz.questions){
-       quest.add(item.question);
-       cor.add(item.correct);
-       opt.add(item.options);
+       _questions.add(item.question);
+       _answers.add(item.correct);
+       _options.add(item.options);
 
     }
 
@@ -69,7 +43,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   bool _isTimeUp = false;
 
-  int _remainingTimeInSeconds = 600; // 10 minutes
+  int _remainingTimeInSeconds = 300; // 10 minutes
   late Timer _timer;
 
   List<int> _selectedAnswers = []; // Stocke les réponses sélectionnées par l'utilisateur
@@ -77,8 +51,8 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   void initState() {
     super.initState();
+        gereQuiz();
       _selectedAnswers = List<int>.filled(_questions.length, -1); 
-      gereQuiz();
     startTimer();
   }
 
@@ -247,25 +221,10 @@ void _navigateToScoreScreen(){
           ),
         )
        .toList(),
+      ),    
+      ],
       ),
-
-                SizedBox(height: 10.0),                  
-                if (_isTimeUp)
-                    Column(
-                   children: [
-                   Text(
-                    '',
-                    style: TextStyle(fontSize: 18.0, color: Colors.red),
-                   ),
-                   Text(
-                   'Votre score : $_score / ${_questions.length}',
-                    style: TextStyle(fontSize: 18.0),
-                   ),
-                 ],
-                ),
-              ],
-            ),
-          ),
+       ),
           SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -273,7 +232,6 @@ void _navigateToScoreScreen(){
               ElevatedButton(
                 onPressed: _previousQuestion,
                 child: Text('BACK' , style: TextStyle(color: Colors.white), // Texte blanc
-
                 ),
                 style:  ElevatedButton.styleFrom(
                    backgroundColor: Color.fromARGB(238, 245, 101, 5)

@@ -53,7 +53,7 @@ class _ScreenResultGenerateState extends State<ScreenResultGenerate> {
 
   Future<bool> fetchData() async {
     //url
-    Uri fetchUri = Uri.parse("http://192.168.1.112:5000/quiz");
+    Uri fetchUri = Uri.parse("http://192.168.1.183:5000/generer_quiz/${theme}");
 
     //data to send
     Map<String, String> headers = {
@@ -61,6 +61,7 @@ class _ScreenResultGenerateState extends State<ScreenResultGenerate> {
     };
     await http.get(fetchUri, headers: headers).then((response) {
       if (response.statusCode == 200) {
+        print(response.body);
         //Selialization
       List<dynamic> data = json.decode(response.body);
        for (var item in data) {
@@ -120,6 +121,8 @@ appBar: AppBar(
     ElevatedButton(
       onPressed: () {
         addQuiz();
+        Get.toNamed('/allquiz');
+
       },
        child: Text('save',style: TextStyle(color: Colors.white)),
        style:  ElevatedButton.styleFrom(

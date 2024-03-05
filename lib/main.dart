@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-       initialRoute: '/allquiz', 
+       initialRoute: '/generate_quiz', 
       getPages: [
         GetPage(name: '/quiz', page: () => QuizApp()), 
         GetPage(name: '/score', page: () => ScoreQuiz()), 
