@@ -119,7 +119,7 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
                   SizedBox(height: 20), // Espacement
                   ElevatedButton(
                     onPressed: () {
-                      Get.toNamed('/quiz');
+                      Get.toNamed('/quiz', arguments : quiz);
                     },
                     child: Text('Start Quiz', style: TextStyle(color: Colors.white)),
                     style: ElevatedButton.styleFrom(

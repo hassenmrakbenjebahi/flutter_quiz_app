@@ -53,7 +53,7 @@ class _ScreenResultGenerateState extends State<ScreenResultGenerate> {
 
   Future<bool> fetchData() async {
     //url
-    Uri fetchUri = Uri.parse("http://192.168.1.183:5000/quiz");
+    Uri fetchUri = Uri.parse("http://192.168.1.112:5000/quiz");
 
     //data to send
     Map<String, String> headers = {

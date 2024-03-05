@@ -1,7 +1,7 @@
  import 'package:flutter/material.dart';
 import 'dart:async';
-
 import 'package:get/get.dart';
+import 'package:quizapp/model/quiz.dart';
 
 void main() {
   runApp(QuizApp());
@@ -22,6 +22,7 @@ class QuizScreen extends StatefulWidget {
 }
 
 class _QuizScreenState extends State<QuizScreen> {
+  Quiz quiz = Get.arguments as Quiz;
   int _questionIndex = 0;
   int _score = 0;
   List<String> _questions = [
@@ -36,6 +37,7 @@ class _QuizScreenState extends State<QuizScreen> {
     'How do you add animations in Flutter?',
     'What is the rendering engine used by Flutter?'
 ];
+  
   List<List<String>> _options = [
     ['JAVA', 'Dart', 'JavaScript', 'Python'],
     ['Bloc', 'Widget', 'Module', 'Component'], 
@@ -49,6 +51,22 @@ class _QuizScreenState extends State<QuizScreen> {
     ['Skia', 'WebGL', 'Canvas', 'OpenGL'], 
   ];
   List<int> _answers = [1, 1,1,2,1,0,1,3,1,0]; // Index des réponses correctes pour chaque question
+  List<int> cor = [];
+  List<String> quest = [];
+  List<List<String>> opt = [];
+  void gereQuiz(){
+    
+    for(var item in quiz.questions){
+       quest.add(item.question);
+       cor.add(item.correct);
+       opt.add(item.options);
+
+    }
+
+  }
+
+
+
   bool _isTimeUp = false;
 
   int _remainingTimeInSeconds = 600; // 10 minutes
@@ -60,7 +78,7 @@ class _QuizScreenState extends State<QuizScreen> {
   void initState() {
     super.initState();
       _selectedAnswers = List<int>.filled(_questions.length, -1); 
-
+      gereQuiz();
     startTimer();
   }
 
