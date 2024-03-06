@@ -27,7 +27,7 @@ List<Quiz> parseQuizzes(String responseBody) {
 // Fonction pour récupérer tous les quizzes depuis le serveur
 Future<List<Quiz>> fetchQuiz() async {
   // URL pour récupérer les quizzes
-  Uri fetchUri = Uri.parse("http://192.168.1.183:5000/all_quiz");
+  Uri fetchUri = Uri.parse("http://192.168.1.65:5000/all_quiz");
 
   // En-têtes de la requête
   Map<String, String> headers = {

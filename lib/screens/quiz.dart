@@ -22,6 +22,9 @@ class QuizScreen extends StatefulWidget {
 }
 
 class _QuizScreenState extends State<QuizScreen> {
+    
+
+
   Quiz quiz = Get.arguments as Quiz;
   int _questionIndex = 0;
   int _score = 0;
@@ -115,14 +118,68 @@ void _answerQuestion(int selectedOption) {
   }
 }
 
-void _navigateToScoreScreen(){
-   setState(() {
-         _timer.cancel();
-
-   });
-   Get.toNamed('/score', arguments: _score);
-  
+void _navigateToScoreDialog() {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Quiz Finished'),
+        content:   Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          const SizedBox(width: 1000),
+          const Text(
+            'Your Score: ',
+            style: TextStyle(
+              fontSize: 34,
+              fontWeight: FontWeight.w500,
+              color: Color.fromARGB(255, 228, 111, 15),
+            ),
+          ),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              SizedBox(
+                height: 50,
+                width: 50,
+                child: CircularProgressIndicator(
+                  strokeWidth: 10,
+                  value: _score / 10,
+                  color: Color.fromARGB(255, 228, 111, 15),
+                  backgroundColor: Color.fromARGB(255, 116, 114, 114),
+                ),
+              ),
+              Column(
+                children: [
+                  Text(
+                    _score.toString(),
+                    style: const TextStyle(fontSize: 80),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    '${(_score / 10 * 100).round()}%',
+                    style: const TextStyle(fontSize: 25),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Ferme la boîte de dialogue
+            },
+            child: Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
 }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -238,12 +295,12 @@ void _navigateToScoreScreen(){
                 ),
               ),
         ElevatedButton(
-         onPressed:_questionIndex < _questions.length - 1 ? _nextQuestion : _navigateToScoreScreen,
+         onPressed:_questionIndex < _questions.length - 1 ? _nextQuestion : _navigateToScoreDialog,
          child: Text(_questionIndex < _questions.length - 1 ? 'NEXT' : 'SEND', style: TextStyle(color: Colors.white)),
          style: ElevatedButton.styleFrom(
          backgroundColor: _questionIndex < _questions.length - 1
            ? Color.fromARGB(238, 245, 101, 5) 
-           : Colors.teal,                      
+           :Color.fromARGB(238, 245, 101, 5),                      
            ),
           ),             
          ],

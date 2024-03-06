@@ -118,17 +118,14 @@ appBar: AppBar(
   ),
   actions: [
    // if(questions.length != 0)
-    ElevatedButton(
-      onPressed: () {
-        addQuiz();
-        Get.toNamed('/allquiz');
-
-      },
-       child: Text('save',style: TextStyle(color: Colors.white)),
-       style:  ElevatedButton.styleFrom(
-       backgroundColor: Color.fromARGB(238, 245, 101, 5)
-      ),
-    ),
+   IconButton(
+  onPressed: () {
+    addQuiz();
+    Get.toNamed('/allquiz');
+  },
+  icon: Icon(Icons.save, color: Color.fromARGB(255, 243, 148, 5),size: 28),
+  color: Color.fromARGB(238, 245, 101, 5),
+)
   ],
 ),
 
