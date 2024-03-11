@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:quizapp/utils/constants.dart';
+import 'package:quizapp/utils/globalColor.dart';
 
 class ScreenResultGenerate extends StatefulWidget {
   const ScreenResultGenerate({Key? key}) : super(key: key);
@@ -125,8 +126,8 @@ appBar: AppBar(
     addQuiz();
     Get.toNamed('/allquiz');
   },
-  icon: Icon(Icons.save, color: Color.fromARGB(255, 243, 148, 5),size: 28),
-  color: Color.fromARGB(238, 245, 101, 5),
+  icon: Icon(Icons.save, color: JobColor.appcolor,size: 28),
+  color: JobColor.appcolor,
 )
   ],
 ),
@@ -135,7 +136,7 @@ appBar: AppBar(
       future: fetchedData,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: SpinKitCubeGrid(color: const Color.fromARGB(255, 243, 110, 33), size: 50.0));
+          return Center(child: SpinKitCubeGrid(color: JobColor.appcolor, size: 50.0));
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else {
@@ -171,9 +172,9 @@ appBar: AppBar(
                               return ListTile(
                                    title: Text(option),
                                    // Appliquer la bordure orange si c'est la bonne réponse
-                                   tileColor: iscorrect ? Colors.orange.withOpacity(0.3) : null,
+                                   tileColor: iscorrect ? JobColor.appcolor.withOpacity(0.3) : null,
                                    shape: iscorrect ? RoundedRectangleBorder(
-                                   side: BorderSide(color: Colors.orange, width: 2.0),
+                                   side: BorderSide(color:JobColor.appcolor, width: 2.0),
                                    borderRadius: BorderRadius.circular(8.0),
                                    ) : null,
                                 onTap: () {

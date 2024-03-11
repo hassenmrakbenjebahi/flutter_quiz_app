@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:quizapp/model/quiz.dart';
+import 'package:quizapp/utils/globalColor.dart';
 
 void main() {
   runApp(QuizApp());
@@ -133,7 +134,7 @@ void _navigateToScoreDialog() {
             style: TextStyle(
               fontSize: 34,
               fontWeight: FontWeight.w500,
-              color: Color.fromARGB(255, 228, 111, 15),
+              color: JobColor.appcolor,
             ),
           ),
           Stack(
@@ -145,7 +146,7 @@ void _navigateToScoreDialog() {
                 child: CircularProgressIndicator(
                   strokeWidth: 10,
                   value: _score / 10,
-                  color: Color.fromARGB(255, 228, 111, 15),
+                  color: JobColor.appcolor,
                   backgroundColor: Color.fromARGB(255, 116, 114, 114),
                 ),
               ),
@@ -217,7 +218,7 @@ void _navigateToScoreDialog() {
                 ),
                 
                 style:  ElevatedButton.styleFrom(
-               backgroundColor: Color.fromARGB(238, 245, 101, 5),
+               backgroundColor: JobColor.appcolor,
                
                 ),
               ),
@@ -235,7 +236,7 @@ void _navigateToScoreDialog() {
                 height: 20,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: _questionIndex == index ? Color.fromARGB(255, 255, 115, 0) : Colors.grey,
+                  color: _questionIndex == index ? JobColor.appcolor : Colors.grey,
                 ),
                 child: Center(
                   child: Text(
@@ -247,7 +248,7 @@ void _navigateToScoreDialog() {
             ),
           ),
           Divider(
-              color: Color.fromARGB(255, 250, 104, 6),
+              color: JobColor.appcolor,
               height: 60.0,
             ),
           Center(
@@ -291,7 +292,7 @@ void _navigateToScoreDialog() {
                 child: Text('BACK' , style: TextStyle(color: Colors.white), // Texte blanc
                 ),
                 style:  ElevatedButton.styleFrom(
-                   backgroundColor: Color.fromARGB(238, 245, 101, 5)
+                   backgroundColor: JobColor.appcolor
                 ),
               ),
         ElevatedButton(
@@ -299,8 +300,8 @@ void _navigateToScoreDialog() {
          child: Text(_questionIndex < _questions.length - 1 ? 'NEXT' : 'SEND', style: TextStyle(color: Colors.white)),
          style: ElevatedButton.styleFrom(
          backgroundColor: _questionIndex < _questions.length - 1
-           ? Color.fromARGB(238, 245, 101, 5) 
-           :Color.fromARGB(238, 245, 101, 5),                      
+           ? JobColor.appcolor 
+           :JobColor.appcolor,                      
            ),
           ),             
          ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quizapp/model/quiz.dart';
-
+import 'package:quizapp/utils/globalColor.dart';
 class DetailQuizScreen extends StatefulWidget {
   const DetailQuizScreen({Key? key}) : super(key: key);
 
@@ -123,7 +123,7 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
                     },
                     child: Text('Start Quiz', style: TextStyle(color: Colors.white)),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(238, 245, 101, 5),
+                      backgroundColor: JobColor.appcolor,
                     ),
                   ),
                   SizedBox(height: 20), // Espacement
@@ -142,7 +142,7 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
       height: 40.0,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: const Color.fromARGB(255, 243, 145, 33),
+        color: JobColor.appcolor,
       ),
       child: Icon(
         iconData,

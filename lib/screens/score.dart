@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:quizapp/utils/globalColor.dart';
 
 class ScoreQuiz extends StatefulWidget {
   const ScoreQuiz({super.key});
@@ -9,6 +10,8 @@ class ScoreQuiz extends StatefulWidget {
 }
 
 class _ScoreQuizState extends State<ScoreQuiz> {
+
+  
   @override
   Widget build(BuildContext context) {
     final int score = Get.arguments as int;
@@ -40,7 +43,7 @@ class _ScoreQuizState extends State<ScoreQuiz> {
             style: TextStyle(
               fontSize: 34,
               fontWeight: FontWeight.w500,
-              color: Color.fromARGB(255, 228, 111, 15),
+              color: JobColor.appcolor,
             ),
           ),
           Stack(
@@ -52,7 +55,7 @@ class _ScoreQuizState extends State<ScoreQuiz> {
                 child: CircularProgressIndicator(
                   strokeWidth: 10,
                   value: score / 10,
-                  color: Color.fromARGB(255, 228, 111, 15),
+                  color: JobColor.appcolor,
                   backgroundColor: Color.fromARGB(255, 116, 114, 114),
                 ),
               ),

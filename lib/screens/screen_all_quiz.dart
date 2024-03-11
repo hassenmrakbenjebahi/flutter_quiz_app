@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:quizapp/model/quiz.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:quizapp/utils/constants.dart';
+import 'package:quizapp/utils/globalColor.dart';
 
 class ScreenAllQuiz extends StatefulWidget {
   const ScreenAllQuiz({Key? key}) : super(key: key);
@@ -79,7 +80,7 @@ Future<List<Quiz>> fetchQuiz() async {
         future: fetchQuiz(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: SpinKitCubeGrid(color: const Color.fromARGB(255, 243, 110, 33), size: 50.0));
+          return Center(child: SpinKitCubeGrid(color: JobColor.appcolor, size: 50.0));
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
@@ -96,7 +97,7 @@ Future<List<Quiz>> fetchQuiz() async {
                 height: 80,
                 fit: BoxFit.cover,
               ),
-              title: Text(quizzes[index].theme,style: TextStyle(color: Color.fromARGB(238, 245, 101, 5),fontWeight: FontWeight.bold) ),
+              title: Text(quizzes[index].theme,style: TextStyle(color: JobColor.appcolor,fontWeight: FontWeight.bold) ),
               subtitle: Text('${quizzes[index].questions.length} questions'),
               trailing: ElevatedButton(
                 onPressed: () {
@@ -104,7 +105,7 @@ Future<List<Quiz>> fetchQuiz() async {
                 },
                  child: Text('continue',style: TextStyle(color: Colors.white)),
                  style:  ElevatedButton.styleFrom(
-                 backgroundColor: Color.fromARGB(238, 245, 101, 5)
+                 backgroundColor: JobColor.appcolor
                  ),              
                ),
             ),

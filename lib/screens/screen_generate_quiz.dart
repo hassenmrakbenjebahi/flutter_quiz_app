@@ -1,5 +1,6 @@
  import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:quizapp/utils/globalColor.dart';
 
 
 class ScreenGenerateQuiz extends StatefulWidget {
@@ -48,7 +49,7 @@ class _ScreenGenerateQuizState extends State<ScreenGenerateQuiz> {
              "Generate Quiz",
              style: TextStyle(
              fontWeight: FontWeight.bold,
-             color: Color.fromARGB(238, 245, 101, 5),
+             color: JobColor.appcolor,
              fontSize: 25,
              ),
             ),
@@ -82,7 +83,7 @@ class _ScreenGenerateQuizState extends State<ScreenGenerateQuiz> {
             },
             child: Text('Generate',style: TextStyle(color: Colors.white)),
             style:  ElevatedButton.styleFrom(
-            backgroundColor: Color.fromARGB(238, 245, 101, 5)
+            backgroundColor: JobColor.appcolor
            ),
           ),
          ),
