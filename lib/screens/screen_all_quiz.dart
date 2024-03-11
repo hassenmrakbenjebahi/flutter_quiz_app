@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:quizapp/model/quiz.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:quizapp/utils/constants.dart';
 
 class ScreenAllQuiz extends StatefulWidget {
   const ScreenAllQuiz({Key? key}) : super(key: key);
@@ -27,7 +28,7 @@ List<Quiz> parseQuizzes(String responseBody) {
 // Fonction pour récupérer tous les quizzes depuis le serveur
 Future<List<Quiz>> fetchQuiz() async {
   // URL pour récupérer les quizzes
-  Uri fetchUri = Uri.parse("http://192.168.1.65:5000/all_quiz");
+  Uri fetchUri = Uri.parse("${Constants.BaseUri}/all_quiz");
 
   // En-têtes de la requête
   Map<String, String> headers = {

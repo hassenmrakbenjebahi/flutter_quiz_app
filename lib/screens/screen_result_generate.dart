@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:quizapp/utils/constants.dart';
+
 class ScreenResultGenerate extends StatefulWidget {
   const ScreenResultGenerate({Key? key}) : super(key: key);
 
@@ -20,7 +22,7 @@ class _ScreenResultGenerateState extends State<ScreenResultGenerate> {
   try {
     List<Map<String, dynamic>> questionsJson = questions.map((question) => question.toJson()).toList();
     final response = await http.post(
-      Uri.parse('http://192.168.1.183:5000/add_quiz'),
+      Uri.parse('${Constants.BaseUri}/add_quiz'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'theme': theme,
@@ -53,7 +55,7 @@ class _ScreenResultGenerateState extends State<ScreenResultGenerate> {
 
   Future<bool> fetchData() async {
     //url
-    Uri fetchUri = Uri.parse("http://192.168.1.183:5000/generer_quiz/${theme}");
+    Uri fetchUri = Uri.parse("${Constants.BaseUri}/generer_quiz/${theme}");
 
     //data to send
     Map<String, String> headers = {
