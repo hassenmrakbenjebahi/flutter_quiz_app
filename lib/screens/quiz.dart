@@ -119,7 +119,18 @@ void _answerQuestion(int selectedOption) {
   }
 }
 
+void _handleNextOrSendButton() {
+  if (_questionIndex < _questions.length - 1) {
+    _nextQuestion();
+  } else {
+    if (!_isTimeUp) {
+      _navigateToScoreDialog();
+    }
+  }
+}
+
 void _navigateToScoreDialog() {
+  _isTimeUp = true;
   _timer.cancel();
   showDialog(
     context: context,
@@ -303,15 +314,14 @@ void _navigateToScoreDialog() {
                    backgroundColor: JobColor.appcolor
                 ),
               ),
-        ElevatedButton(
-         onPressed:_questionIndex < _questions.length - 1 ? _nextQuestion : _navigateToScoreDialog,
-         child: Text(_questionIndex < _questions.length - 1 ? 'NEXT' : 'SEND', style: TextStyle(color: Colors.white)),
-         style: ElevatedButton.styleFrom(
-         backgroundColor: _questionIndex < _questions.length - 1
-           ? JobColor.appcolor 
-           :JobColor.appcolor,                      
-           ),
-          ),             
+               ElevatedButton(
+               onPressed: _isTimeUp ? null : _handleNextOrSendButton,
+               child: Text(_questionIndex < _questions.length - 1 ? 'NEXT' : 'SEND', style: TextStyle(color: Colors.white)),
+               style: ElevatedButton.styleFrom(
+               backgroundColor: _questionIndex < _questions.length - 1 ? JobColor.appcolor : JobColor.appcolor,
+               ),
+             ),
+             
          ],
         ),
         ],
@@ -321,6 +331,7 @@ void _navigateToScoreDialog() {
 
   @override
   void dispose() {
+   // _isTimeUp = true;
     _timer.cancel(); // Arrêter le chronomètre lors de la suppression du widget
     super.dispose();
   }
