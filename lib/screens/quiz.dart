@@ -120,65 +120,73 @@ void _answerQuestion(int selectedOption) {
 }
 
 void _navigateToScoreDialog() {
+  _timer.cancel();
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text('Quiz Finished'),
-        content:   Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          const SizedBox(width: 1000),
-          const Text(
-            'Your Score: ',
-            style: TextStyle(
-              fontSize: 34,
-              fontWeight: FontWeight.w500,
-              color: JobColor.appcolor,
+        content: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Your Score:',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              SizedBox(
-                height: 50,
-                width: 50,
-                child: CircularProgressIndicator(
-                  strokeWidth: 10,
-                  value: _score / 10,
-                  color: JobColor.appcolor,
-                  backgroundColor: Color.fromARGB(255, 116, 114, 114),
-                ),
-              ),
-              Column(
-                children: [
-                  Text(
-                    _score.toString(),
-                    style: const TextStyle(fontSize: 80),
+            SizedBox(height: 20),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                  height: 100,
+                  width: 100,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 10,
+                    value: _score / 10,
+                    color: JobColor.appcolor,
+                    backgroundColor: Color.fromARGB(255, 116, 114, 114),
                   ),
-                  const SizedBox(height: 10),
-                  Text(
-                    '${(_score / 10 * 100).round()}%',
-                    style: const TextStyle(fontSize: 25),
-                  )
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
+                ),
+                Column(
+                  children: [
+                    Text(
+                      _score.toString(),
+                      style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      '${(_score / 10 * 100).round()}%',
+                      style: TextStyle(fontSize: 18),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
         actions: <Widget>[
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop(); // Ferme la boîte de dialogue
+              Get.toNamed('/allquiz');
             },
-            child: Text('OK'),
+            child: Text(
+              'OK',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.blue,
+              ),
+            ),
           ),
         ],
       );
     },
   );
 }
+
 
 
 
