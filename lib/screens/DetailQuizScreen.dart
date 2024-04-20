@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quizapp/model/quiz.dart';
+import 'package:quizapp/model/testQ.dart';
+
 import 'package:quizapp/utils/globalColor.dart';
 class DetailQuizScreen extends StatefulWidget {
   const DetailQuizScreen({Key? key}) : super(key: key);
@@ -13,7 +15,7 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
-    Quiz quiz = Get.arguments as Quiz;
+    TestQ tquiz = Get.arguments as TestQ;
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -61,7 +63,7 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
                       children: [
                         _buildCircleIcon(Icons.check_circle),
                         SizedBox(width: 10),
-                        Text('${quiz.questions.length} questions'),
+                        Text('${tquiz.quiz.questions.length} questions'),
                       ],
                     ),
                   ),
@@ -119,7 +121,7 @@ class _DetailQuizScreenState extends State<DetailQuizScreen> {
                   SizedBox(height: 20), // Espacement
                   ElevatedButton(
                     onPressed: () {
-                      Get.toNamed('/quiz', arguments : quiz);
+                      Get.toNamed('/quiz', arguments : tquiz);
                     },
                     child: Text('Start Quiz', style: TextStyle(color: Colors.white)),
                     style: ElevatedButton.styleFrom(

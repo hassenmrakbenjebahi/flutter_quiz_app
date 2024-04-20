@@ -2,6 +2,8 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:quizapp/model/quiz.dart';
+import 'package:quizapp/model/testQ.dart';
+
 import 'package:quizapp/utils/globalColor.dart';
 
 void main() {
@@ -26,7 +28,7 @@ class _QuizScreenState extends State<QuizScreen> {
     
 
 
-  Quiz quiz = Get.arguments as Quiz;
+  TestQ tquiz = Get.arguments as TestQ;
   int _questionIndex = 0;
   int _score = 0;
   List<int> _answers = [];
@@ -34,7 +36,7 @@ class _QuizScreenState extends State<QuizScreen> {
   List<List<String>> _options = [];
   void gereQuiz(){
     
-    for(var item in quiz.questions){
+    for(var item in tquiz.quiz.questions){
        _questions.add(item.question);
        _answers.add(item.correct);
        _options.add(item.options);
