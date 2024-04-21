@@ -6,7 +6,7 @@ import 'package:quizapp/screens/DetailQuizScreen.dart';
 import 'package:quizapp/screens/screen_all_quiz.dart';
 import 'package:quizapp/screens/screen_generate_quiz.dart';
 import 'package:quizapp/screens/screen_result_generate.dart';
-
+import 'package:quizapp/screens/screenQuizs.dart';
 
 
 void main() {
@@ -18,13 +18,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-       initialRoute: '/allquiz', 
+       initialRoute: '/allquizbycandidat', 
       getPages: [
         GetPage(name: '/quiz', page: () => QuizApp()), 
         GetPage(name: '/detailquiz', page:()=> DetailQuizScreen()),
         GetPage(name: '/generate_quiz', page:()=> ScreenGenerateQuiz()),
         GetPage(name: '/result_generate', page:()=> ScreenResultGenerate()),
         GetPage(name: '/allquiz', page:()=> ScreenAllQuiz()),
+        GetPage(name: '/allquizbycandidat', page:()=> ScreenQuiz()),
+
 
 
       ],
