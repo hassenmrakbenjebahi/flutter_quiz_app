@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:quizapp/model/quiz.dart';
 import 'package:quizapp/model/testQ.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:quizapp/utils/globalColor.dart';
+import 'package:quizapp/utils/constants.dart';
 
 void main() {
   runApp(QuizApp());
@@ -131,60 +133,33 @@ void _handleNextOrSendButton() {
   }
 }
 
-void _navigateToScoreDialog() {
-  _isTimeUp = true;
-  _timer.cancel();
-  showDialog(
+
+
+   Future<void> _navigateToScoreDialog() async {
+  try {
+    final response = await http.put(
+      Uri.parse('${Constants.BaseUri}/update_test_quiz/${tquiz.id}'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'score': _score,
+        'status': "finish",
+      }),
+    );
+
+    if (response.statusCode == 200) {
+   _isTimeUp = true;
+   _timer.cancel();
+    showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Quiz Finished'),
-        content: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Your Score:',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 20),
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 10,
-                    value: _score / 10,
-                    color: JobColor.appcolor,
-                    backgroundColor: Color.fromARGB(255, 116, 114, 114),
-                  ),
-                ),
-                Column(
-                  children: [
-                    Text(
-                      _score.toString(),
-                      style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      '${(_score / 10 * 100).round()}%',
-                      style: TextStyle(fontSize: 18),
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-        actions: <Widget>[
+       
+      title: Text('Quiz Finished'),
+      content: Text('Thank you for completing the quiz. We will contact you by email shortly.'),
+      actions: <Widget>[
           TextButton(
             onPressed: () {
-              Get.toNamed('/allquiz');
+              Get.toNamed('/allquizbycandidat');
             },
             child: Text(
               'OK',
@@ -195,12 +170,31 @@ void _navigateToScoreDialog() {
             ),
           ),
         ],
-      );
-    },
-  );
+       );
+      },
+     );
+    } else{
+         showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Quiz Finished"),
+              content: const Text("Server Error! Try agaim ."),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text("Dismiss"))
+              ],
+            );
+          },
+        );
+    }
+  } catch (e) {
+    print('Error during modifier quiz: $e');
+    // Handle network or other exceptions
+  }
+
 }
-
-
 
 
   @override

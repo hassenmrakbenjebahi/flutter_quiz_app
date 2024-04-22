@@ -70,38 +70,42 @@ class _ScreenQuizState extends State<ScreenQuiz> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Image.asset(
-              'assets/logo.png',
-              width: 40,
-              height: 40,
-            ),
-            SizedBox(width: 10),
-            Text(
-              'My Job Applications',
-              style: TextStyle(fontSize: 20, fontFamily: 'Roboto'),
-            ),
-          ],
-        ),
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Row(
+        children: [
+          Image.asset(
+            'assets/logo.png',
+            width: 40,
+            height: 40,
+          ),
+          SizedBox(width: 10),
+          Text(
+            'My Job Applications',
+            style: TextStyle(fontSize: 20, fontFamily: 'Roboto'),
+          ),
+        ],
       ),
-      body: FutureBuilder<List<TestQ>>(
-        future: fetchQuiz(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-                child: SpinKitCubeGrid(
-                    color: JobColor.appcolor, size: 50.0));
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            List<TestQ>? testq = snapshot.data;
-            return ListView.builder(
-              itemCount: testq!.length,
-              itemBuilder: (context, index) {
+    ),
+    body: FutureBuilder<List<TestQ>>(
+      future: fetchQuiz(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: SpinKitCubeGrid(
+              color: JobColor.appcolor, 
+              size: 50.0
+            ),
+          );
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else {
+          List<TestQ>? testq = snapshot.data;
+          return ListView.builder(
+            itemCount: testq!.length,
+            itemBuilder: (context, index) {
+              if (testq[index].status == "start") {
                 return Card(
                   margin: EdgeInsets.all(10),
                   child: ListTile(
@@ -111,28 +115,90 @@ class _ScreenQuizState extends State<ScreenQuiz> {
                       height: 80,
                       fit: BoxFit.cover,
                     ),
-                    title: Text(testq[index].quiz.theme,
-                        style: TextStyle(
-                            color: JobColor.appcolor,
-                            fontWeight: FontWeight.bold)),
-                    subtitle: Text(
-                        '${testq[index].quiz.questions.length} questions'),
+                    title: Text(
+                      testq[index].quiz.theme,
+                      style: TextStyle(
+                        color: JobColor.appcolor,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${testq[index].quiz.questions.length} questions',
+                        ),
+                        Text(
+                          'Date: ${testq[index].date}',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
                     trailing: ElevatedButton(
                       onPressed: () {
                         Get.toNamed('/detailquiz', arguments: testq[index]);
                       },
-                      child: Text('continue',
-                          style: TextStyle(color: Colors.white)),
+                      child: Text(
+                        'Start',
+                        style: TextStyle(color: Colors.white),
+                      ),
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: JobColor.appcolor),
+                        backgroundColor: JobColor.appcolor,
+                      ),
                     ),
                   ),
                 );
-              },
-            );
-          }
-        },
-      ),
-    );
-  }
+              } else {
+                return Card(
+                  margin: EdgeInsets.all(10),
+                  child: ListTile(
+                    leading: Image.asset(
+                      'assets/lquiz.jpg',
+                      width: 80,
+                      height: 80,
+                      fit: BoxFit.cover,
+                    ),
+                    title: Text(
+                      testq[index].quiz.theme,
+                      style: TextStyle(
+                        color: JobColor.appcolor,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${testq[index].quiz.questions.length} questions',
+                        ),
+                        Text(
+                          'Date: ${testq[index].date}',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12,
+                          ),
+                        ),
+                        Text(
+                          'Quiz already completed',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+            },
+          );
+        }
+      },
+    ),
+  );
+}
+
 }
