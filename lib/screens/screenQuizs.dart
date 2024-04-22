@@ -139,7 +139,7 @@ Widget build(BuildContext context) {
                     ),
                     trailing: ElevatedButton(
                       onPressed: () {
-                        Get.toNamed('/detailquiz', arguments: testq[index]);
+                        Get.toNamed('/quiz', arguments: testq[index]);
                       },
                       child: Text(
                         'Start',
