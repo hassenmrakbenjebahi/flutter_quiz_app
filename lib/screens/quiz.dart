@@ -141,7 +141,7 @@ void _handleNextOrSendButton() {
       Uri.parse('${Constants.BaseUri}/update_test_quiz/${tquiz.id}'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        'score': _score,
+        'score': _score / tquiz.quiz.questions.length * 100,
         'status': "finish",
       }),
     );

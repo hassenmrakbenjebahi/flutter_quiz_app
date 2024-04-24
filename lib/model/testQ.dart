@@ -8,7 +8,7 @@ class TestQ {
    Quiz quiz;
    String date;
    String status;
-   int score;
+   double score;
 
 
 
