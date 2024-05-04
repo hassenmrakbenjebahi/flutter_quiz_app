@@ -7,32 +7,23 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:quizapp/utils/globalColor.dart';
 import 'package:quizapp/utils/constants.dart';
+import 'package:camera/camera.dart';
 
-void main() {
-  runApp(QuizApp());
-}
 
-class QuizApp extends StatelessWidget {
+
+class QuizApp extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: QuizScreen(),
-    );
-  }
+  _QuizAppState createState() => _QuizAppState();
 }
 
-class QuizScreen extends StatefulWidget {
-  @override
-  _QuizScreenState createState() => _QuizScreenState();
-}
-
-class _QuizScreenState extends State<QuizScreen> {
+class _QuizAppState extends State<QuizApp> {
     
 
+  late CameraController _cameraController;
 
   TestQ tquiz = Get.arguments as TestQ;
   int _questionIndex = 0;
-  int _score = 0;
+  double _score = 0;
   List<int> _answers = [];
   List<String> _questions = [];
   List<List<String>> _options = [];
@@ -62,6 +53,8 @@ class _QuizScreenState extends State<QuizScreen> {
         gereQuiz();
       _selectedAnswers = List<int>.filled(_questions.length, -1); 
     startTimer();
+    _initializeCamera(); // Initialisation de la caméra
+
   }
 
   void startTimer() {
@@ -77,6 +70,14 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
+
+Future<void> _initializeCamera() async {
+  final cameras = await availableCameras();
+  final firstCamera = cameras.first;
+  _cameraController = CameraController(firstCamera, ResolutionPreset.medium);
+  await _cameraController.initialize();
+}
+
   void _nextQuestion() {
     setState(() {
       if (_questionIndex < _questions.length - 1) {
@@ -89,6 +90,8 @@ class _QuizScreenState extends State<QuizScreen> {
       }
     });
   }
+
+
 
   void _previousQuestion() {
     setState(() {
@@ -218,8 +221,10 @@ void _handleNextOrSendButton() {
         ),
       ),
       body: ListView(
+
         padding: const EdgeInsets.all(16),
         children: [
+  
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
