@@ -72,10 +72,17 @@ class _QuizAppState extends State<QuizApp> {
 
 
 Future<void> _initializeCamera() async {
-  final cameras = await availableCameras();
-  final firstCamera = cameras.first;
-  _cameraController = CameraController(firstCamera, ResolutionPreset.medium);
-  await _cameraController.initialize();
+   final cameras = await availableCameras();
+  // Recherchez la caméra frontale
+  final frontCamera = cameras.firstWhere((camera) => camera.lensDirection == CameraLensDirection.front);
+
+  // Vérifiez si une caméra frontale est disponible
+  if (frontCamera != null) {
+    _cameraController = CameraController(frontCamera, ResolutionPreset.medium);
+    await _cameraController.initialize();
+  } else {
+      print("noooooo   fronnntttttttt camera ");
+  }
 }
 
   void _nextQuestion() {
@@ -224,7 +231,9 @@ void _handleNextOrSendButton() {
 
         padding: const EdgeInsets.all(16),
         children: [
-  
+          //_cameraController.value.isInitialized
+           // ? CameraPreview(_cameraController)
+            //: Center(child: CircularProgressIndicator()),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
