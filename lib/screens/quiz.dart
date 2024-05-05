@@ -1,14 +1,12 @@
  import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:get/get.dart';
-import 'package:quizapp/model/quiz.dart';
 import 'package:quizapp/model/testQ.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:quizapp/utils/globalColor.dart';
 import 'package:quizapp/utils/constants.dart';
 import 'package:camera/camera.dart';
-
 
 
 class QuizApp extends StatefulWidget {
@@ -20,7 +18,6 @@ class _QuizAppState extends State<QuizApp> {
     
 
   late CameraController _cameraController;
-
   TestQ tquiz = Get.arguments as TestQ;
   int _questionIndex = 0;
   double _score = 0;
@@ -54,7 +51,6 @@ class _QuizAppState extends State<QuizApp> {
       _selectedAnswers = List<int>.filled(_questions.length, -1); 
     startTimer();
     _initializeCamera(); // Initialisation de la caméra
-
   }
 
   void startTimer() {
@@ -72,18 +68,19 @@ class _QuizAppState extends State<QuizApp> {
 
 
 Future<void> _initializeCamera() async {
-   final cameras = await availableCameras();
-  // Recherchez la caméra frontale
+  final cameras = await availableCameras();
   final frontCamera = cameras.firstWhere((camera) => camera.lensDirection == CameraLensDirection.front);
 
-  // Vérifiez si une caméra frontale est disponible
   if (frontCamera != null) {
     _cameraController = CameraController(frontCamera, ResolutionPreset.medium);
     await _cameraController.initialize();
+    
   } else {
-      print("noooooo   fronnntttttttt camera ");
+    print("Pas de caméra frontale disponible.");
   }
 }
+
+ 
 
   void _nextQuestion() {
     setState(() {
@@ -343,6 +340,7 @@ void _handleNextOrSendButton() {
   void dispose() {
    // _isTimeUp = true;
     _timer.cancel(); // Arrêter le chronomètre lors de la suppression du widget
+    _cameraController.dispose();
     super.dispose();
   }
 }
