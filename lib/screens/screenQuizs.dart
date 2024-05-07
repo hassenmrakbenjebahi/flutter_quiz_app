@@ -70,7 +70,7 @@ class _ScreenQuizState extends State<ScreenQuiz> {
       }
     } catch (e) {
       print('Error during fetchQuiz: $e');
-      throw Exception('Failed to load test quiiiizs');
+      throw Exception('no quiz ');
     }
     return testquizs;
   }
@@ -112,8 +112,7 @@ Widget build(BuildContext context) {
             itemCount: testq!.length,
             itemBuilder: (context, index) {
             DateTime quizDate = DateTime.parse(testq[index].date);
-              if (testq[index].status == "start" && isQuizDateExpired(quizDate) == false ) {
-                print(isQuizDateExpired(quizDate));
+              if (testq[index].status == "start"  ) {
                 return Card(
                   margin: EdgeInsets.all(10),
                   child: ListTile(
@@ -160,48 +159,7 @@ Widget build(BuildContext context) {
                   ),
                 );
               }
-              else if (isQuizDateExpired(quizDate) && testq[index].status == "start") {
-             return Card(
-                  margin: EdgeInsets.all(10),
-                  child: ListTile(
-                    leading: Image.asset(
-                      'assets/lquiz.jpg',
-                      width: 80,
-                      height: 80,
-                      fit: BoxFit.cover,
-                    ),
-                    title: Text(
-                      testq[index].quiz.theme,
-                      style: TextStyle(
-                        color: JobColor.appcolor,
-                        fontWeight: FontWeight.bold
-                      ),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${testq[index].quiz.questions.length} questions',
-                        ),
-                        Text(
-                          'Date: ${testq[index].date}',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 12,
-                          ),
-                        ),
-                        Text(
-                          'You have exceeded the deadline',
-                          style: TextStyle(
-                            color: const Color.fromARGB(255, 248, 6, 6),
-                            fontSize: 12,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-          }
+           
                else {
                 return Card(
                   margin: EdgeInsets.all(10),

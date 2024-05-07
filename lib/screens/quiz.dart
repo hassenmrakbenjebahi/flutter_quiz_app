@@ -43,7 +43,8 @@ class _QuizAppState extends State<QuizApp> {
   late Timer _timer;
 
   List<int> _selectedAnswers = []; // Stocke les réponses sélectionnées par l'utilisateur
-  
+    double _progress = 0.0; // Pourcentage de temps écoulé
+
   @override
   void initState() {
     super.initState();
@@ -58,6 +59,8 @@ class _QuizAppState extends State<QuizApp> {
       setState(() {
         if (_remainingTimeInSeconds > 0) {
           _remainingTimeInSeconds--;
+          _updateProgress();
+
         } else {
           _isTimeUp = true;
           _timer.cancel(); // Arrêter le chronomètre une fois le temps écoulé
@@ -65,7 +68,9 @@ class _QuizAppState extends State<QuizApp> {
       });
     });
   }
-
+ void _updateProgress() {
+    _progress = ((_remainingTimeInSeconds / 300) * 100).toDouble();
+  }
 
 Future<void> _initializeCamera() async {
   final cameras = await availableCameras();
@@ -252,6 +257,7 @@ void _handleNextOrSendButton() {
             ],
           ),
           SizedBox(height: 10),
+        
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: List.generate(
@@ -273,10 +279,12 @@ void _handleNextOrSendButton() {
               ),
             ),
           ),
-          Divider(
-              color: JobColor.appcolor,
-              height: 60.0,
-            ),
+         SizedBox(height: 10),
+         LinearProgressIndicator(
+            value: _progress / 100,
+            backgroundColor: Colors.grey[300],
+            valueColor: AlwaysStoppedAnimation<Color>(JobColor.appcolor),
+          ),
           Center(
             child: Column(
               children: [
