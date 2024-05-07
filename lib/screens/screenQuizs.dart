@@ -22,6 +22,12 @@ class _ScreenQuizState extends State<ScreenQuiz> {
   bool isQuizDateExpired(DateTime quizDate) {
     return currentDate.isAfter(quizDate);
   }
+   bool isQuizDateDesactive(DateTime quizDate) {
+    return currentDate.isBefore(quizDate);
+  }
+ bool isSameDay(DateTime date1, DateTime date2) {
+  return date1.year == date2.year && date1.month == date2.month && date1.day == date2.day;
+}
   Future<Quiz> getQuizById(String id) async {
     Uri fetchUri = Uri.parse("${Constants.BaseUri}/onequiz/${id}");
     Map<String, String> headers = {
@@ -81,14 +87,9 @@ Widget build(BuildContext context) {
     appBar: AppBar(
       title: Row(
         children: [
-          Image.asset(
-            'assets/logo.png',
-            width: 40,
-            height: 40,
-          ),
           SizedBox(width: 10),
           Text(
-            'My Job Applications',
+            'Quiz',
             style: TextStyle(fontSize: 20, fontFamily: 'Roboto'),
           ),
         ],
@@ -113,6 +114,7 @@ Widget build(BuildContext context) {
             itemBuilder: (context, index) {
             DateTime quizDate = DateTime.parse(testq[index].date);
               if (testq[index].status == "start"  ) {
+              if (isSameDay(currentDate,quizDate)){
                 return Card(
                   margin: EdgeInsets.all(10),
                   child: ListTile(
@@ -158,6 +160,99 @@ Widget build(BuildContext context) {
                     ),
                   ),
                 );
+                }else
+                if(isQuizDateExpired(quizDate)){
+                  return Card(
+                  margin: EdgeInsets.all(10),
+                  child: ListTile(
+                    leading: Image.asset(
+                      'assets/lquiz.jpg',
+                      width: 80,
+                      height: 80,
+                      fit: BoxFit.cover,
+                    ),
+                    title: Text(
+                      testq[index].quiz.theme,
+                      style: TextStyle(
+                        color: JobColor.appcolor,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${testq[index].quiz.questions.length} questions',
+                        ),
+                        Text(
+                          'Date: ${testq[index].date}',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12,
+                          ),
+                        ),
+                         Text(
+                          'Expired Quiz',
+                          style: TextStyle(
+                            color: JobColor.appcolor,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  
+                  ),
+                );
+
+                }
+                
+                    else if(isQuizDateDesactive(quizDate)){
+                  return Card(
+                  margin: EdgeInsets.all(10),
+                  child: ListTile(
+                    leading: Image.asset(
+                      'assets/lquiz.jpg',
+                      width: 80,
+                      height: 80,
+                      fit: BoxFit.cover,
+                    ),
+                    title: Text(
+                      testq[index].quiz.theme,
+                      style: TextStyle(
+                        color: JobColor.appcolor,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${testq[index].quiz.questions.length} questions',
+                        ),
+                        Text(
+                          'Date: ${testq[index].date}',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12,
+                          ),
+                        ),
+                         Text(
+                          'Quiz will be open',
+                          style: TextStyle(
+                            color: JobColor.appcolor,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  
+                  ),
+                );
+                
+                }
+                {
+                  print("fama haja ");
+                }
               }
            
                else {

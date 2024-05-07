@@ -39,7 +39,7 @@ class _QuizAppState extends State<QuizApp> {
 
   bool _isTimeUp = false;
 
-  int _remainingTimeInSeconds = 300; // 10 minutes
+  int _remainingTimeInSeconds = 50; // 10 minutes
   late Timer _timer;
 
   List<int> _selectedAnswers = []; // Stocke les réponses sélectionnées par l'utilisateur
@@ -167,7 +167,7 @@ void _handleNextOrSendButton() {
       return AlertDialog(
        
       title: Text('Quiz Finished'),
-      content: Text('Thank you for completing the quiz. We will contact you by email shortly.'),
+      content: Text('Thank you . We will contact you by email shortly.'),
       actions: <Widget>[
           TextButton(
             onPressed: () {
@@ -215,14 +215,10 @@ void _handleNextOrSendButton() {
       appBar: AppBar(
         title: Row(
           children: [  
-            Image.asset(
-              'assets/logo.png',
-              width: 40,
-              height: 40,
-            ),
+        
             SizedBox(width: 10),      
             Text(
-              'My Job Applications',
+              'Quiz',
               style: TextStyle(
                   fontSize: 20, fontFamily: AutofillHints.creditCardNumber),
             ),
