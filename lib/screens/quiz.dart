@@ -39,7 +39,7 @@ class _QuizAppState extends State<QuizApp> {
 
   bool _isTimeUp = false;
 
-  int _remainingTimeInSeconds = 50; // 10 minutes
+  int _remainingTimeInSeconds = 300; 
   late Timer _timer;
 
   List<int> _selectedAnswers = []; // Stocke les réponses sélectionnées par l'utilisateur
@@ -207,7 +207,6 @@ void _handleNextOrSendButton() {
   }
 
 }
-
 
   @override
   Widget build(BuildContext context) {
